@@ -17,6 +17,13 @@ const eslintConfig = defineConfig([
       "react/jsx-first-prop-new-line": ["error", "multiline-multiprop"],
       "react/jsx-max-props-per-line": ["error", { maximum: 1, when: "multiline" }],
       "react/jsx-closing-bracket-location": ["error", "line-aligned"],
+      "react/self-closing-comp": [
+        "error",
+        {
+          component: true,
+          html: true,
+        },
+      ],
 
       "import/order": [
         "error",
