@@ -1,109 +1,12 @@
-import Image from "next/image";
-import Link from "next/link";
-import { TrendingDown, TrendingUp } from "lucide-react";
-
-import DataTable from "@/components/DataTable";
-import { cn, formatCurrency } from "@/lib/utils";
-import { fetcher } from "@/lib/coingecko.actions";
-
-const dummyTrendingCoins: TrendingCoin[] = [
-  {
-    item: {
-      id: "bitcoin",
-      name: "Bitcoin",
-      symbol: "BTC",
-      market_cap_rank: 1,
-      thumb: "/logo.svg",
-      large: "/logo.svg",
-      data: {
-        price: 89113.0,
-        price_change_percentage_24h: {
-          usd: 2.5,
-        },
-      },
-    },
-  },
-  {
-    item: {
-      id: "ethereum",
-      name: "Ethereum",
-      symbol: "ETH",
-      market_cap_rank: 2,
-      thumb: "/logo.svg",
-      large: "/logo.svg",
-      data: {
-        price: 2500.0,
-        price_change_percentage_24h: {
-          usd: -1.2,
-        },
-      },
-    },
-  },
-];
-
-const columns: DataTableColumn<TrendingCoin>[] = [
-  {
-    header: "Name",
-    cellClassName: "name-cell",
-    cell: ({ item }) => {
-      return (
-        <Link href={`/coins/${item.id}`}>
-          <Image src={item.large} alt={item.name} width={36} height={36} />
-          <p>{item.name}</p>
-        </Link>
-      );
-    },
-  },
-  {
-    header: "24h Change",
-    cellClassName: "name-cell",
-    cell: ({ item }) => {
-      const priceChangePercentage24hUSD = item.data.price_change_percentage_24h.usd;
-      const isTrendingUp = priceChangePercentage24hUSD > 0;
-      const TrendingIcon = isTrendingUp ? TrendingUp : TrendingDown;
-      return (
-        <div className={cn("price-change", isTrendingUp ? "text-green-500" : "text-red-500")}>
-          <p>
-            <TrendingIcon width={16} height={16} />
-            {Math.abs(priceChangePercentage24hUSD).toFixed(2)}%
-          </p>
-        </div>
-      );
-    },
-  },
-  {
-    header: "Price",
-    cellClassName: "price-cell",
-    cell: ({ item }) => "$" + item.data.price.toLocaleString(),
-  },
-];
+import CoinOverview from "@/components/home/CoinOverview";
+import TrendingCoins from "@/components/home/TrendingCoins";
 
 export default async function Home() {
-  const coin = await fetcher<CoinDetailsData>("/coins/bitcoin", {
-    dex_pair_format: "symbol",
-  });
-
   return (
     <main className="main-container">
       <section className="home-grid">
-        <div id="coin-overview">
-          <div className="header pt-2">
-            <Image src={coin.image.large} alt={coin.name} width={250} height={250} />
-            <div className="info">
-              <p>
-                {coin.name} / {coin.symbol.toUpperCase()}
-              </p>
-              <h1>{formatCurrency(coin.market_data.current_price.usd)}</h1>
-            </div>
-          </div>
-        </div>
-        <p>Trending Coins</p>
-        <DataTable
-          data={dummyTrendingCoins}
-          columns={columns}
-          rowKey={(coin) => coin.item.id}
-          tableClassName="trending-coins-table"
-        />
+        <CoinOverview />
+        <TrendingCoins />
       </section>
       <section className="w-full mt-7 space-y-4">
         <p>Categories</p>
