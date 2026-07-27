@@ -51,9 +51,9 @@ const TrendingCoins = async () => {
         const TrendingIcon = isTrendingUp ? TrendingUp : TrendingDown;
         return (
           <div className={cn("price-change", isTrendingUp ? "text-green-500" : "text-red-500")}>
-            <p>
-              <TrendingIcon width={16} height={16} />
+            <p className="flex items-center gap-1">
               {Math.abs(priceChangePercentage24hUSD).toFixed(2)}%
+              <TrendingIcon width={16} height={16} />
             </p>
           </div>
         );
