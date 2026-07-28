@@ -526,6 +526,10 @@
     .exchange-table {
       @apply bg-dark-500 rounded-xl overflow-hidden mt-5;
 
+      tr {
+        @apply relative;
+      }
+
       .exchange-name {
         @apply text-green-500 font-bold;
 
@@ -589,6 +593,10 @@
 
     .coins-table {
       @apply bg-dark-500 rounded-xl max-h-fit overflow-hidden;
+
+      tr {
+        @apply relative;
+      }
 
       .rank-cell {
         @apply pl-5 max-w-20! py-5 font-medium text-purple-100;

@@ -4,7 +4,7 @@ import { TrendingDown, TrendingUp } from "lucide-react";
 
 import DataTable from "@/components/DataTable";
 import { fetcher } from "@/lib/coingecko.actions";
-import { cn } from "@/lib/utils";
+import { cn, formatPercentage } from "@/lib/utils";
 
 const MAX_COINS_COUNT = 6;
 
@@ -61,14 +61,22 @@ const TrendingCoins = async () => {
     {
       ...TRENDING_COINS_COLUMNS_BASE.change,
       cell: ({ item }) => {
-        const priceChangePercentage24hUSD = item.data.price_change_percentage_24h.usd;
-        const isTrendingUp = priceChangePercentage24hUSD > 0;
-        const TrendingIcon = isTrendingUp ? TrendingUp : TrendingDown;
+        const change = item.data.price_change_percentage_24h.usd;
+        const isTrendingUp = change > 0;
+        const isTrendingDown = change < 0;
         return (
-          <div className={cn("price-change", isTrendingUp ? "text-green-500" : "text-red-500")}>
+          <div
+            className={cn("price-change", {
+              "text-gray-500": change === 0,
+              "text-green-500": isTrendingUp,
+              "text-red-500": isTrendingDown,
+            })}
+          >
             <p className="flex items-center gap-1">
-              {Math.abs(priceChangePercentage24hUSD).toFixed(2)}%
-              <TrendingIcon width={16} height={16} />
+              {isTrendingUp && "+"}
+              {formatPercentage(change)}
+              {isTrendingUp && <TrendingUp width={16} height={16} />}
+              {isTrendingDown && <TrendingDown width={16} height={16} />}
             </p>
           </div>
         );
