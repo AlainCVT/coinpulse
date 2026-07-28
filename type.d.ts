@@ -260,11 +260,14 @@ interface UseCoinGeckoWebSocketReturn {
   isConnected: boolean;
 }
 
-interface DataTableColumn<T> {
+interface DataTableColumnBase {
   header: React.ReactNode;
-  cell: (row: T, index: number) => React.ReactNode;
   headClassName?: string;
   cellClassName?: string;
+}
+
+interface DataTableColumn<T> extends DataTableColumnBase {
+  cell: (row: T, index: number) => React.ReactNode;
 }
 
 interface DataTableProps<T> {
