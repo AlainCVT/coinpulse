@@ -8,6 +8,23 @@ import { cn } from "@/lib/utils";
 
 const MAX_COINS_COUNT = 6;
 
+const TRENDING_COINS_COLUMNS_BASE = {
+  name: {
+    header: "Name",
+    cellClassName: "name-cell",
+  },
+  change: {
+    header: "24h Change",
+    headClassName: "w-1/5",
+    cellClassName: "change-cell",
+  },
+  price: {
+    header: "Price",
+    headClassName: "w-1/5",
+    cellClassName: "price-cell",
+  },
+} satisfies Record<string, DataTableColumnBase>;
+
 const TrendingCoins = async () => {
   const trendingCoins = await fetcher<{
     coins: TrendingCoin[];
@@ -23,10 +40,9 @@ const TrendingCoins = async () => {
     return <TrendingCoinsFallback />;
   }
 
-  const columns: DataTableColumn<TrendingCoin>[] = [
+  const TRENDING_COINS_COLUMNS: DataTableColumn<TrendingCoin>[] = [
     {
-      header: "Name",
-      cellClassName: "name-cell",
+      ...TRENDING_COINS_COLUMNS_BASE.name,
       cell: ({ item }) => {
         return (
           <Link href={`/coins/${item.id}`} className="flex items-center gap-2">
@@ -43,8 +59,7 @@ const TrendingCoins = async () => {
       },
     },
     {
-      header: "24h Change",
-      cellClassName: "name-cell",
+      ...TRENDING_COINS_COLUMNS_BASE.change,
       cell: ({ item }) => {
         const priceChangePercentage24hUSD = item.data.price_change_percentage_24h.usd;
         const isTrendingUp = priceChangePercentage24hUSD > 0;
@@ -60,8 +75,7 @@ const TrendingCoins = async () => {
       },
     },
     {
-      header: "Price",
-      cellClassName: "price-cell",
+      ...TRENDING_COINS_COLUMNS_BASE.price,
       cell: ({ item }) => "$" + item.data.price.toLocaleString(),
     },
   ];
@@ -71,7 +85,7 @@ const TrendingCoins = async () => {
       <h4>Trending Coins</h4>
       <DataTable
         data={trendingCoins.coins.slice(0, MAX_COINS_COUNT) || []}
-        columns={columns}
+        columns={TRENDING_COINS_COLUMNS}
         rowKey={(coin) => coin.item.id}
         tableClassName="trending-coins-table"
         headerCellClassName="py-3!"
@@ -88,7 +102,7 @@ export const TrendingCoinsFallback = () => {
         data={Array.from({ length: MAX_COINS_COUNT }, (_, i) => ({ id: i }))}
         columns={[
           {
-            header: "Name",
+            ...TRENDING_COINS_COLUMNS_BASE.name,
             cell: () => (
               <div className="name-link">
                 <div className="name-image skeleton" />
@@ -97,7 +111,7 @@ export const TrendingCoinsFallback = () => {
             ),
           },
           {
-            header: "24h Change",
+            ...TRENDING_COINS_COLUMNS_BASE.change,
             cell: () => (
               <div className="price-change flex flex-col items-start">
                 <div className="change-icon skeleton" />
@@ -106,7 +120,7 @@ export const TrendingCoinsFallback = () => {
             ),
           },
           {
-            header: "Price",
+            ...TRENDING_COINS_COLUMNS_BASE.price,
             cell: () => <div className="price-line skeleton" />,
           },
         ]}

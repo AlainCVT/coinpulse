@@ -39,7 +39,7 @@ const CandlestickChart = ({
     try {
       const config = PERIOD_CONFIG[selectedPeriod];
 
-      const newData = await fetcher<OHLCData[]>("/coins/bitcoin/ohlc", {
+      const newData = await fetcher<OHLCData[]>(`/coins/${coinId}/ohlc`, {
         vs_currency: "usd",
         days: config.days,
         // interval: config.interval, // CoinGecko demo API now disallow the interval
