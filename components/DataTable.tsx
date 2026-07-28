@@ -16,7 +16,11 @@ const DataTable = <T,>(props: DataTableProps<T>) => {
           {props.columns.map((column, i) => (
             <TableHead
               key={`header-${i}`}
-              className={cn("bg-dark-400 text-purple-100 py-4 first:pl-5 last:pr-5")}
+              className={cn(
+                "bg-dark-400 text-purple-100 py-4 first:pl-5 last:pr-5",
+                props.headerCellClassName,
+                column.headClassName,
+              )}
             >
               {column.header}
             </TableHead>
@@ -35,7 +39,11 @@ const DataTable = <T,>(props: DataTableProps<T>) => {
             {props.columns.map((column, j) => (
               <TableCell
                 key={`column-${i}-${j}`}
-                className={cn("py-4 first:pl-5 last:pr-5", props.bodyCellClassName)}
+                className={cn(
+                  "py-4 first:pl-5 last:pr-5",
+                  props.bodyCellClassName,
+                  column.cellClassName,
+                )}
               >
                 {column.cell(row, i)}
               </TableCell>

@@ -2,6 +2,7 @@ import { Suspense } from "react";
 
 import CoinOverview, { CoinOverviewFallback } from "@/components/home/CoinOverview";
 import TrendingCoins, { TrendingCoinsFallback } from "@/components/home/TrendingCoins";
+import Categories, { CategoriesFallback } from "@/components/home/Categories";
 
 export default async function Home() {
   return (
@@ -15,7 +16,9 @@ export default async function Home() {
         </Suspense>
       </section>
       <section className="w-full mt-7 space-y-4">
-        <p>Categories</p>
+        <Suspense fallback={<CategoriesFallback />}>
+          <Categories />
+        </Suspense>
       </section>
     </main>
   );
