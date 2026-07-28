@@ -57,13 +57,22 @@ const Categories = async () => {
     {
       ...CATEGORIES_COLUMNS_BASE.change,
       cell: (category) => {
-        const isTrendingUp = category.market_cap_change_24h > 0;
-        const TrendingIcon = isTrendingUp ? TrendingUp : TrendingDown;
+        const change = category.market_cap_change_24h;
+        const isTrendingUp = change > 0;
+        const isTrendingDown = change < 0;
         return (
-          <div className={cn("change-cell", isTrendingUp ? "text-green-500" : "text-red-500")}>
+          <div
+            className={cn("change-cell", {
+              "text-gray-500": change === 0,
+              "text-green-500": isTrendingUp,
+              "text-red-500": isTrendingDown,
+            })}
+          >
             <p className="flex items-center gap-1">
-              {formatPercentage(category.market_cap_change_24h)}
-              <TrendingIcon width={16} height={16} />
+              {isTrendingUp && "+"}
+              {formatPercentage(change)}
+              {isTrendingUp && <TrendingUp width={16} height={16} />}
+              {isTrendingDown && <TrendingDown width={16} height={16} />}
             </p>
           </div>
         );

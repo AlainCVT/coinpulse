@@ -78,11 +78,19 @@ export default async function Coins({ searchParams }: NextPageProps) {
     {
       ...COINS_MARKETS_COLUMNS_BASE.change,
       cell: (coin) => {
-        const isTrendingUp = coin.price_change_percentage_24h > 0;
+        const change = coin.price_change_percentage_24h;
+        const isTrendingUp = change > 0;
+        const isTrendingDown = change < 0;
         return (
-          <span className={cn("change-value", trendingClasses(coin.price_change_percentage_24h))}>
+          <span
+            className={cn("change-value", {
+              "text-gray-500": change === 0,
+              "text-green-500": isTrendingUp,
+              "text-red-500": isTrendingDown,
+            })}
+          >
             {isTrendingUp && "+"}
-            {formatPercentage(coin.price_change_percentage_24h)}
+            {formatPercentage(change)}
           </span>
         );
       },
