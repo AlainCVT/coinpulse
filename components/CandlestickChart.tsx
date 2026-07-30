@@ -13,7 +13,7 @@ import { fetcher } from "@/lib/coingecko.actions";
 import { convertOHLCData } from "@/lib/utils";
 
 interface CandlestickChartProps {
-  data: OHLCData[];
+  data?: OHLCData[];
   coinId: string;
   height?: number;
   initialPeriod?: Period;

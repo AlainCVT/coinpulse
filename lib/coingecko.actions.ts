@@ -36,3 +36,31 @@ export async function fetcher<T>(
 
   return response.json();
 }
+
+export async function getPools(
+  id: string,
+  network?: string | null,
+  contractAddress?: string | null,
+): Promise<PoolData> {
+  const fallback: PoolData = {
+    id: "",
+    address: "",
+    name: "",
+    network: "",
+  };
+
+  const hasPoolData = !!(network && contractAddress);
+
+  try {
+    const poolData = await fetcher<{ data: PoolData[] }>(
+      hasPoolData
+        ? `/onchain/networks/${network}/tokens/${contractAddress}/pools`
+        : "/onchain/search/pools",
+      hasPoolData ? {} : { query: id },
+    );
+
+    return poolData.data?.[0] ?? fallback;
+  } catch {
+    return fallback;
+  }
+}

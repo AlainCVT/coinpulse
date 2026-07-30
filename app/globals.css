@@ -894,7 +894,7 @@
     @apply size-full xl:col-span-2;
 
     .divider {
-      @apply my-8! bg-purple-600!;
+      @apply h-px my-8! bg-purple-600!;
     }
 
     .trend {

@@ -319,3 +319,10 @@ interface PoolData {
   name: string;
   network: string;
 }
+
+interface CoinDetail {
+  label: string;
+  value: string;
+  link?: string;
+  linkText?: string;
+}
