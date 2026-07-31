@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
   {
     plugins: { prettier: prettierPlugin },
     rules: {
+      "object-shorthand": ["error", "always"],
+
       "prettier/prettier": "error",
 
       "react/jsx-first-prop-new-line": ["error", "multiline-multiprop"],
