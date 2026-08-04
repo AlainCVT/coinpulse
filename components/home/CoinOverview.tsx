@@ -5,7 +5,7 @@ import { formatCurrency } from "@/lib/utils";
 import CandlestickChart from "@/components/CandlestickChart";
 
 const CoinOverview = async () => {
-  const [coin, coinOHLCData] = await Promise.all([
+  const [coinData, coinOHLCData] = await Promise.all([
     fetcher<CoinDetailsData>("/coins/bitcoin", {
       dex_pair_format: "symbol",
     }).catch(
@@ -27,8 +27,8 @@ const CoinOverview = async () => {
     ),
   ]);
 
-  if (coin instanceof Error) {
-    console.error(coin.message);
+  if (coinData instanceof Error) {
+    console.error(coinData.message);
     return <CoinOverviewFallback />;
   }
 
@@ -41,12 +41,12 @@ const CoinOverview = async () => {
     <div id="coin-overview">
       <CandlestickChart data={coinOHLCData} coinId="bitcoin">
         <div className="header pt-2">
-          <Image src={coin.image.large} alt={coin.name} width={250} height={250} />
+          <Image src={coinData.image.large} alt={coinData.name} width={250} height={250} />
           <div className="info">
             <p>
-              {coin.name} / {coin.symbol.toUpperCase()}
+              {coinData.name} / {coinData.symbol.toUpperCase()}
             </p>
-            <h1>{formatCurrency(coin.market_data.current_price.usd)}</h1>
+            <h1>{formatCurrency(coinData.market_data.current_price.usd)}</h1>
           </div>
         </div>
       </CandlestickChart>

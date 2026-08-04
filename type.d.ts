@@ -1,5 +1,7 @@
 type OHLCData = [number, number, number, number, number];
 
+type Interval = "1s" | "1m";
+
 interface NextPageProps {
   params: Promise<{ [key: string]: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -13,8 +15,8 @@ interface CandlestickChartProps {
   children?: React.ReactNode;
   mode?: "historical" | "live";
   initialPeriod?: Period;
-  liveInterval: "1s" | "1m";
-  setLiveInterval: (interval: "1s" | "1m") => void;
+  liveInterval?: Interval;
+  setLiveInterval?: (interval: Interval) => void;
 }
 
 interface ConverterProps {
@@ -250,7 +252,7 @@ interface Category {
 interface UseCoinGeckoWebSocketProps {
   coinId: string;
   poolId: string;
-  liveInterval?: "1s" | "1m";
+  liveInterval?: Interval;
 }
 
 interface UseCoinGeckoWebSocketReturn {
@@ -318,4 +320,20 @@ interface PoolData {
   address: string;
   name: string;
   network: string;
+}
+
+interface CoinDetail {
+  label: string;
+  value: string;
+  link?: string;
+  linkText?: string;
+}
+
+interface CoinStats {
+  label: string;
+  value: number;
+  isUp: boolean;
+  isDown: boolean;
+  formatter: (...args: any[]) => string;
+  showIcon: boolean;
 }
