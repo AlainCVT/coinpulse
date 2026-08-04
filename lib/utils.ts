@@ -16,18 +16,21 @@ export function formatCurrency(
     return showSymbol !== false ? "$0.00" : "0.00";
   }
 
-  if (showSymbol === undefined || showSymbol === true) {
-    return value.toLocaleString(undefined, {
-      style: "currency",
-      currency: currency?.toUpperCase() || "USD",
-      minimumFractionDigits: digits ?? 2,
-      maximumFractionDigits: digits ?? 2,
-    });
-  }
-  return value.toLocaleString(undefined, {
+  const locale = "en-US";
+  const numberFormatOptions = {
     minimumFractionDigits: digits ?? 2,
     maximumFractionDigits: digits ?? 2,
-  });
+  };
+
+  if (showSymbol === undefined || showSymbol === true) {
+    return new Intl.NumberFormat(locale, {
+      style: "currency",
+      currency: currency?.toUpperCase() || "USD",
+      ...numberFormatOptions,
+    }).format(value);
+  }
+
+  return new Intl.NumberFormat(locale, numberFormatOptions).format(value);
 }
 
 export function formatPercentage(change: number | null | undefined): string {

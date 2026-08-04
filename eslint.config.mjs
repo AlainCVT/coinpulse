@@ -27,6 +27,8 @@ const eslintConfig = defineConfig([
         },
       ],
 
+      "@typescript-eslint/no-explicit-any": "warn",
+
       "import/order": [
         "error",
         {

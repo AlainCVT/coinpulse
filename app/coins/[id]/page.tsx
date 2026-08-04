@@ -4,6 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import { fetcher, getPools } from "@/lib/coingecko.actions";
 import { formatCurrency } from "@/lib/utils";
 import LiveDataWrapper from "@/components/LiveDataWrapper";
+import Converter from "@/components/Converter";
 
 export default async function CoinID({ params }: NextPageProps) {
   const { id } = await params;
@@ -94,7 +95,11 @@ export default async function CoinID({ params }: NextPageProps) {
         <p>Exchange Listings</p>
       </section>
       <section className="secondary">
-        <p>Converter</p>
+        <Converter
+          symbol={coinData.symbol}
+          icon={coinData.image.small}
+          priceList={coinData.market_data.current_price}
+        />
         <div className="details">
           <h4>Coin Details</h4>
           <ul className="details-grid">
@@ -115,7 +120,6 @@ export default async function CoinID({ params }: NextPageProps) {
             ))}
           </ul>
         </div>
-        <p>Top Gainers and Losers</p>
       </section>
     </main>
   );

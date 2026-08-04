@@ -328,3 +328,12 @@ interface CoinDetail {
   link?: string;
   linkText?: string;
 }
+
+interface CoinStats {
+  label: string;
+  value: number;
+  isUp: boolean;
+  isDown: boolean;
+  formatter: (...args: any[]) => string;
+  showIcon: boolean;
+}
